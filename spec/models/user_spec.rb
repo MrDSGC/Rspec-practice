@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   describe 'validations' do
 
-    let (:user) { User.create!(username: 'Donnie', password: 'password')}
+    let (:user) { FactoryGirl.create(:user)}
     it { should validate_presence_of(:username)}
     it { should validate_presence_of(:session_token)}
     it { should validate_presence_of(:password_digest)}
@@ -17,7 +17,7 @@ RSpec.describe User, type: :model do
 
   describe 'instance_methods' do
     describe '#reset_session_token!' do
-      let (:user) { User.create!(username: 'bob', password: 'password')}
+      let (:user) { FactoryGirl.create(:user)}
       it 'resets the session token' do
         # test goes here
         old_session_token = user.session_token
@@ -30,9 +30,9 @@ RSpec.describe User, type: :model do
   describe 'model_methods' do
     describe '.find_by_credentials' do
       context 'when given correct credentials' do
-        let! (:user) { User.create!(username: 'bob', password: 'password')}
+        let!(:user) { FactoryGirl.create(:user)}
         it 'should find the right user' do
-          found = User.find_by_credentials('bob', 'password')
+          found = User.find_by_credentials('Donnie', 'password')
           expect(found).to eql(user)
         end
       end
